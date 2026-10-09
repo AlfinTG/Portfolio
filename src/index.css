@@ -1,0 +1,156 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-canvas: #F8F7F4;
+  --color-surface: #FFFFFF;
+  --color-surface-subtle: #F3F1EC;
+  --color-surface-blue: #EEF2FF;
+  --color-ink: #24262D;
+  --color-ink-light: #3D414E;
+  --color-secondary: #606575;
+  --color-mist: #8A90A2;
+  --color-smoke: #B0B5C4;
+  --color-primary: #4263CC;
+  --color-primary-hover: #314BB3;
+  --color-primary-light: #EEF2FF;
+  --color-accent: #D9A15B;
+  --color-accent-light: #FEF3C7;
+  --color-success: #10B981;
+  --color-border: #E7E5E0;
+  --color-border-subtle: #EFECE6;
+  --font-display: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --ease-cine: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  color-scheme: light;
+  --gutter: clamp(16px, 4.5vw, 64px);
+  --color-canvas: #F8F7F4;
+}
+
+html {
+  position: relative;
+  background-color: #F8F7F4;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background-color: #F8F7F4;
+  color: #24262D;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: #4263CC;
+  color: #FFFFFF;
+}
+
+.gutter {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* Subtle organic paper texture */
+.paper-grain {
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 90;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Hide scrollbars on horizontal rails while keeping them scrollable */
+.rail {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom cursor: hide native pointer when active */
+.has-custom-cursor,
+.has-custom-cursor a,
+.has-custom-cursor button,
+.has-custom-cursor [role='button'] {
+  cursor: none;
+}
+
+/* Modern Card & Glass Styles */
+.card-clean {
+  background: #FFFFFF;
+  border: 1px solid #E7E5E0;
+  box-shadow: 0 1px 3px 0 rgba(36, 38, 45, 0.04), 0 1px 2px -1px rgba(36, 38, 45, 0.04);
+}
+
+.card-clean:hover {
+  border-color: #D3D6DF;
+  box-shadow: 0 12px 24px -10px rgba(66, 99, 204, 0.08), 0 4px 6px -2px rgba(36, 38, 45, 0.03);
+}
+
+.card-glass {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(231, 229, 224, 0.8);
+}
+
+.card-interactive {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card-interactive:hover {
+  transform: translateY(-4px);
+  border-color: #4263CC;
+  box-shadow: 0 16px 32px -8px rgba(66, 99, 204, 0.12);
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid #4263CC;
+  outline-offset: 3px;
+}
+
+/* Shimmer accent for headings */
+.shimmer-text {
+  background: linear-gradient(120deg, #24262D 20%, #4263CC 55%, #24262D 80%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 8s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Light beam / gentle glow */
+.soft-glow-blue {
+  background: radial-gradient(circle, rgba(66, 99, 204, 0.08) 0%, rgba(66, 99, 204, 0) 70%);
+}
+
+.soft-glow-amber {
+  background: radial-gradient(circle, rgba(217, 161, 91, 0.08) 0%, rgba(217, 161, 91, 0) 70%);
+}
