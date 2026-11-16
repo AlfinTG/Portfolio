@@ -39,10 +39,10 @@ export default function About() {
       <div className="gutter grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14 items-start">
         {/* Left Column: Personal Narrative with Genuine Portrait Integration */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: EASE }}
+          viewport={{ once: true, amount: 0.08 }}
+          transition={{ duration: 0.6, ease: EASE }}
           className="space-y-6"
         >
           <div className="rounded-3xl border border-[#E7E5E0] bg-white p-6 sm:p-8 md:p-9 shadow-xs">
@@ -50,6 +50,7 @@ export default function About() {
             <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-7 pb-6 border-b border-[#E7E5E0]">
               <CurvedProfileFrame
                 src={profile.avatar}
+                fallback={profile.avatarFallback}
                 alt={profile.fullName}
                 size="md"
                 className="shrink-0 self-start sm:self-auto"
@@ -142,10 +143,10 @@ export default function About() {
           {pillars.map((pillar, i) => (
             <motion.div
               key={pillar.title}
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 16 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: EASE }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.5, delay: i * 0.08, ease: EASE }}
               className="rounded-2xl border border-[#E7E5E0] bg-white p-5 shadow-2xs transition hover:border-[#D3D6DF]"
             >
               <div className="flex items-start gap-4">

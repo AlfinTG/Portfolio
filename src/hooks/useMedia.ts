@@ -16,3 +16,5 @@ export function useMedia(query: string, fallback = false) {
 export const useFinePointer = () => useMedia('(hover: hover) and (pointer: fine)');
 export const useReducedMotionPref = () => useMedia('(prefers-reduced-motion: reduce)');
 export const useDesktop = () => useMedia('(min-width: 1024px)');
+export const useIsMobile = () => useMedia('(max-width: 768px)');
+export const useTouch = () => useMedia('(pointer: coarse)');

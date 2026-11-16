@@ -73,7 +73,7 @@ export function Tilt({
   );
 }
 
-/** Word-by-word blur-to-focus reveal for headings. */
+/** Word-by-word reveal for headings, hardware-accelerated for smooth mobile rendering. */
 export function RevealText({ text, className = '', delay = 0, as = 'span' }: { text: string; className?: string; delay?: number; as?: 'span' | 'h2' | 'h3' | 'p' }) {
   const Tag = motion[as];
   const words = text.split(' ');
@@ -82,17 +82,17 @@ export function RevealText({ text, className = '', delay = 0, as = 'span' }: { t
       className={className}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: '-4% 0px' }}
-      transition={{ staggerChildren: 0.05, delayChildren: delay }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ staggerChildren: 0.035, delayChildren: delay }}
       aria-label={text}
     >
       {words.map((w, i) => (
         <span key={i} aria-hidden className="inline-block overflow-hidden pb-[0.08em] align-bottom">
           <motion.span
-            className="inline-block"
+            className="inline-block will-change-transform"
             variants={{
-              hidden: { y: '105%', opacity: 0, filter: 'blur(6px)' },
-              show: { y: '0%', opacity: 1, filter: 'blur(0px)', transition: { duration: 0.85, ease: EASE } },
+              hidden: { y: '105%', opacity: 0 },
+              show: { y: '0%', opacity: 1, transition: { duration: 0.55, ease: EASE } },
             }}
           >
             {w}
@@ -122,10 +122,10 @@ export function SectionHeading({
     <div className={`gutter mb-8 flex flex-wrap items-end justify-between gap-4 md:mb-12 ${className}`}>
       <div className="max-w-2xl">
         <motion.div
-          initial={{ opacity: 0, x: -16 }}
+          initial={{ opacity: 0, x: -12 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: EASE }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.5, ease: EASE }}
           className="mb-2.5 inline-flex items-center gap-2 rounded-full bg-[#EEF2FF] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#4263CC]"
         >
           <span className="h-1.5 w-1.5 rounded-full bg-[#4263CC]" />
@@ -134,10 +134,10 @@ export function SectionHeading({
         <RevealText as="h2" text={title} className="font-display text-[clamp(2.2rem,5vw,3.6rem)] font-bold tracking-tight text-[#24262D]" />
         {subtitle && (
           <motion.p
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: EASE }}
             className="mt-2 text-sm leading-relaxed text-[#606575] sm:text-base"
           >
             {subtitle}
@@ -146,10 +146,10 @@ export function SectionHeading({
       </div>
       {aside && (
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.5, delay: 0.15, ease: EASE }}
           className="self-end"
         >
           {aside}
@@ -163,6 +163,8 @@ export function SectionHeading({
 export function Particles({ count = 32, color = '66,99,204', className = '' }: { count?: number; color?: string; className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduced = useReducedMotionPref();
+  const fine = useFinePointer();
+  const effectiveCount = fine ? count : Math.min(count, 12);
 
   useEffect(() => {
     const canvas = ref.current;
@@ -183,7 +185,7 @@ export function Particles({ count = 32, color = '66,99,204', className = '' }: {
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
-    const dots = Array.from({ length: count }, () => ({
+    const dots = Array.from({ length: effectiveCount }, () => ({
       x: Math.random(),
       y: Math.random(),
       r: Math.random() * 1.5 + 0.4,
@@ -234,7 +236,7 @@ export function Particles({ count = 32, color = '66,99,204', className = '' }: {
       ro.disconnect();
       cancelAnimationFrame(raf);
     };
-  }, [count, color, reduced]);
+  }, [effectiveCount, color, reduced]);
 
   return <canvas ref={ref} aria-hidden className={`pointer-events-none absolute inset-0 h-full w-full ${className}`} />;
 }

@@ -205,20 +205,23 @@ export function CurvedCardEdge({
  * layered ambient glow, and verified status indicator.
  */
 export function CurvedProfileFrame({
-  src,
+  src = '/assets/profile/alfin.webp',
+  fallback = '/assets/profile/alfin.png',
   alt = 'Alfin Tom George',
   size = 'md',
   className = '',
 }: {
-  src: string;
+  src?: string;
+  fallback?: string;
   alt?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   className?: string;
 }) {
   const sizeClasses = {
+    xs: 'w-14 h-14 sm:w-16 sm:h-16',
     sm: 'w-20 h-20 sm:w-24 sm:h-24',
-    md: 'w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44',
-    lg: 'w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64',
+    md: 'w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44',
+    lg: 'w-44 h-44 sm:w-52 sm:h-52 md:w-64 md:h-64',
   }[size];
 
   return (
@@ -226,25 +229,37 @@ export function CurvedProfileFrame({
       {/* Ambient background glow ring */}
       <div
         aria-hidden
-        className="absolute -inset-3 rounded-3xl bg-gradient-to-tr from-[#4263CC]/25 via-[#6366F1]/20 to-[#10B981]/20 blur-xl opacity-80"
+        className="absolute -inset-2.5 rounded-3xl bg-gradient-to-tr from-[#4263CC]/25 via-[#6366F1]/20 to-[#10B981]/20 blur-lg sm:blur-xl opacity-80"
       />
 
       {/* Layered curved outline container */}
       <div className="relative rounded-3xl p-1 bg-gradient-to-tr from-[#4263CC] via-white/80 to-[#10B981]/60 shadow-lg shadow-[#4263CC]/10">
         <div
-          className={`relative overflow-hidden rounded-[22px] bg-[#EEF2FF] ${sizeClasses}`}
+          className={`relative overflow-hidden rounded-[20px] sm:rounded-[22px] bg-[#EEF2FF] ${sizeClasses}`}
         >
-          <img
-            src={src}
-            alt={alt}
-            className="h-full w-full object-cover object-top transition-transform duration-700 hover:scale-105"
-            loading="eager"
-          />
+          <picture className="h-full w-full">
+            <source srcSet={src} type="image/webp" />
+            <source srcSet={fallback} type="image/png" />
+            <img
+              src={fallback}
+              alt={alt}
+              className="h-full w-full object-cover object-top transition-transform duration-700 hover:scale-105"
+              loading="eager"
+              decoding="async"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.dataset.triedFallback) {
+                  target.dataset.triedFallback = 'true';
+                  target.src = '/alfin.png';
+                }
+              }}
+            />
+          </picture>
 
           {/* Soft inner vignette gradient */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#24262D]/20 via-transparent to-transparent"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#24262D]/15 via-transparent to-transparent"
           />
         </div>
       </div>

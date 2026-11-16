@@ -32,9 +32,9 @@ export default function FinalCTA({ onReplay }: { onReplay: () => void }) {
       <div className="gutter relative z-10 mx-auto max-w-4xl text-center">
         {/* Eyebrow */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1 }}
           className="mb-4 inline-flex items-center gap-2 rounded-full bg-[#EEF2FF] px-3.5 py-1 text-xs font-semibold text-[#4263CC]"
         >
           <span className="h-1.5 w-1.5 rounded-full bg-[#4263CC]" />
@@ -43,20 +43,20 @@ export default function FinalCTA({ onReplay }: { onReplay: () => void }) {
 
         {/* Heading */}
         <motion.h2
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: EASE }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6, ease: EASE }}
           className="font-display text-[clamp(2.2rem,5vw,3.8rem)] font-extrabold tracking-tight text-[#24262D]"
         >
           Have an interesting idea or opportunity? Let's talk.
         </motion.h2>
 
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6, delay: 0.08, ease: EASE }}
           className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-[#606575] sm:text-lg"
         >
           I am currently seeking a software engineering or AI-focused internship. Whether you have a project to collaborate on or an opening on your team, I'd love to hear from you.
@@ -64,31 +64,33 @@ export default function FinalCTA({ onReplay }: { onReplay: () => void }) {
 
         {/* Contact actions */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6, delay: 0.15, ease: EASE }}
           className="mt-10 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4"
         >
           <Magnetic>
-            <a
+            <motion.a
+              whileTap={{ scale: 0.96 }}
               href={`mailto:${profile.email}?subject=${encodeURIComponent("Internship Opportunity / Project Inquiry")}`}
               className="inline-flex items-center gap-2 rounded-xl bg-[#4263CC] px-7 py-3.5 text-sm font-semibold text-white shadow-md shadow-[#4263CC]/20 transition hover:bg-[#314BB3] hover:shadow-lg focus-ring"
             >
               <span>Send an Email</span>
               <span aria-hidden>✉</span>
-            </a>
+            </motion.a>
           </Magnetic>
 
           <Magnetic>
-            <button
+            <motion.button
+              whileTap={{ scale: 0.96 }}
               type="button"
               onClick={copyEmail}
               className="inline-flex items-center gap-2 rounded-xl border border-[#E7E5E0] bg-white px-5 py-3.5 text-sm font-semibold text-[#24262D] shadow-2xs transition hover:border-[#4263CC] hover:text-[#4263CC] focus-ring"
             >
               <span>{copied ? 'Email Copied!' : 'Copy Email Address'}</span>
               <span aria-hidden>{copied ? '✓' : '📋'}</span>
-            </button>
+            </motion.button>
           </Magnetic>
         </motion.div>
 

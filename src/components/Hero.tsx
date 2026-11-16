@@ -11,8 +11,8 @@ const container = {
 };
 
 const item = {
-  hidden: { opacity: 0, y: 22, filter: 'blur(6px)' },
-  show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.75, ease: EASE } },
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
 };
 
 export default function Hero({ onResume }: { onResume: () => void }) {
@@ -70,11 +70,49 @@ export default function Hero({ onResume }: { onResume: () => void }) {
         </svg>
       </div>
 
-      <Particles count={28} color="66,99,204" className="z-0 opacity-40" />
+      <Particles count={fine ? 28 : 12} color="66,99,204" className="z-0 opacity-40" />
 
       <div className="gutter relative z-10 grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
         {/* Left Column: Story & Narrative */}
         <motion.div variants={container} initial="hidden" animate="show" className="max-w-2xl">
+          {/* Prominent Profile Spotlight on Mobile */}
+          <motion.div
+            variants={item}
+            className="mb-6 flex items-center gap-4 rounded-2xl border border-[#E7E5E0] bg-white/95 p-3.5 shadow-sm backdrop-blur-sm sm:hidden"
+          >
+            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border-2 border-[#4263CC]/40 bg-[#EEF2FF] shadow-xs">
+              <picture className="h-full w-full">
+                <source srcSet={profile.avatar} type="image/webp" />
+                <source srcSet={profile.avatarFallback} type="image/png" />
+                <img
+                  src={profile.avatarFallback}
+                  alt={profile.fullName}
+                  className="h-full w-full object-cover object-top"
+                  loading="eager"
+                  decoding="async"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.dataset.triedFallback) {
+                      target.dataset.triedFallback = 'true';
+                      target.src = '/alfin.png';
+                    }
+                  }}
+                />
+              </picture>
+              <span className="absolute bottom-0.5 right-0.5 h-3.5 w-3.5 rounded-full border-2 border-white bg-[#10B981] animate-pulse" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-bold text-[#24262D]">{profile.fullName}</span>
+                <span className="rounded-full bg-[#ECFDF5] px-2 py-0.5 text-[10px] font-semibold text-[#059669]">
+                  Available
+                </span>
+              </div>
+              <p className="text-xs font-semibold text-[#4263CC]">{profile.role}</p>
+              <p className="text-[11px] text-[#8A90A2]">B.Tech CS · AITR Indore (2025–2029)</p>
+            </div>
+          </motion.div>
+
           {/* Eyebrow badge */}
           <motion.div variants={item} className="mb-4">
             <span className="inline-flex items-center gap-2 rounded-full border border-[#E7E5E0] bg-white px-3.5 py-1 text-xs font-semibold text-[#606575] shadow-2xs">
@@ -107,25 +145,27 @@ export default function Hero({ onResume }: { onResume: () => void }) {
           {/* Action CTAs */}
           <motion.div variants={item} className="mt-8 flex flex-wrap items-center gap-3.5 sm:gap-4">
             <Magnetic>
-              <button
+              <motion.button
+                whileTap={{ scale: 0.96 }}
                 type="button"
                 onClick={() => scrollTo('#projects', { offset: -80 })}
                 className="inline-flex items-center gap-2 rounded-xl bg-[#4263CC] px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-[#4263CC]/20 transition hover:bg-[#314BB3] hover:shadow-lg focus-ring"
               >
                 <span>Explore My Projects</span>
                 <span aria-hidden>↓</span>
-              </button>
+              </motion.button>
             </Magnetic>
 
             <Magnetic>
-              <button
+              <motion.button
+                whileTap={{ scale: 0.96 }}
                 type="button"
                 onClick={onResume}
                 className="inline-flex items-center gap-2 rounded-xl border border-[#E7E5E0] bg-white px-5 py-3.5 text-sm font-semibold text-[#24262D] shadow-2xs transition hover:border-[#4263CC] hover:text-[#4263CC] focus-ring"
               >
                 <span>View My Resume</span>
                 <span aria-hidden>📄</span>
-              </button>
+              </motion.button>
             </Magnetic>
           </motion.div>
 
@@ -327,19 +367,33 @@ export default function Hero({ onResume }: { onResume: () => void }) {
             </motion.div>
           </Tilt>
 
-          {/* Floating UI Badges */}
+          {/* Floating UI Badges for Desktop & Tablet */}
           <motion.div
             style={{ x: badge1X, y: badge1Y }}
+            animate={!fine ? { y: [0, -6, 0] } : undefined}
+            transition={!fine ? { duration: 4.5, repeat: Infinity, ease: 'easeInOut' } : undefined}
             className="absolute -bottom-6 -left-6 z-20 hidden rounded-2xl border border-[#E7E5E0] bg-white/95 p-3 shadow-xl backdrop-blur-md sm:block"
           >
             <div className="flex items-center gap-3">
               <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-[#4263CC]/30 bg-[#EEF2FF]">
-                <img
-                  src={profile.avatar}
-                  alt={profile.fullName}
-                  className="h-full w-full object-cover object-top"
-                  loading="eager"
-                />
+                <picture className="h-full w-full">
+                  <source srcSet={profile.avatar} type="image/webp" />
+                  <source srcSet={profile.avatarFallback} type="image/png" />
+                  <img
+                    src={profile.avatarFallback}
+                    alt={profile.fullName}
+                    className="h-full w-full object-cover object-top"
+                    loading="eager"
+                    decoding="async"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (!target.dataset.triedFallback) {
+                        target.dataset.triedFallback = 'true';
+                        target.src = '/alfin.png';
+                      }
+                    }}
+                  />
+                </picture>
                 <span className="absolute bottom-0.5 right-0.5 h-2.5 w-2.5 rounded-full border border-white bg-[#10B981]" />
               </div>
               <div>
@@ -351,6 +405,8 @@ export default function Hero({ onResume }: { onResume: () => void }) {
 
           <motion.div
             style={{ x: badge2X, y: badge2Y }}
+            animate={!fine ? { y: [0, 6, 0] } : undefined}
+            transition={!fine ? { duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 } : undefined}
             className="absolute -right-6 -top-6 z-20 hidden rounded-xl border border-[#E7E5E0] bg-white/95 p-3.5 shadow-lg backdrop-blur sm:block"
           >
             <div className="flex items-center gap-3">
@@ -363,6 +419,40 @@ export default function Hero({ onResume }: { onResume: () => void }) {
               </div>
             </div>
           </motion.div>
+
+          {/* Mobile Identity Badge under Terminal */}
+          <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-[#E7E5E0] bg-white p-3.5 shadow-xs sm:hidden">
+            <div className="flex items-center gap-3">
+              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl border border-[#4263CC]/30 bg-[#EEF2FF]">
+                <picture className="h-full w-full">
+                  <source srcSet={profile.avatar} type="image/webp" />
+                  <source srcSet={profile.avatarFallback} type="image/png" />
+                  <img
+                    src={profile.avatarFallback}
+                    alt={profile.fullName}
+                    className="h-full w-full object-cover object-top"
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (!target.dataset.triedFallback) {
+                        target.dataset.triedFallback = 'true';
+                        target.src = '/alfin.png';
+                      }
+                    }}
+                  />
+                </picture>
+                <span className="absolute bottom-0.5 right-0.5 h-2 w-2 rounded-full border border-white bg-[#10B981]" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-[#24262D]">{profile.fullName}</p>
+                <p className="text-[11px] font-medium text-[#4263CC]">25-Day Hackathon Lead</p>
+              </div>
+            </div>
+            <span className="rounded-lg bg-[#FEF3C7] px-2.5 py-1 text-[10px] font-bold text-[#D97706]">
+              PyData Indore
+            </span>
+          </div>
         </div>
       </div>
     </section>

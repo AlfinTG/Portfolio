@@ -16,13 +16,14 @@ export default function ProjectCard({
   return (
     <motion.article
       className="flex flex-col h-full"
-      initial={{ opacity: 0, y: 32 }}
+      initial={{ opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-5% 0px' }}
-      transition={{ duration: 0.7, delay: index * 0.08, ease: EASE }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: 0.5, delay: Math.min(index * 0.06, 0.24), ease: EASE }}
     >
       <Tilt max={4} className="group flex flex-col h-full rounded-2xl sm:rounded-3xl">
-        <div
+        <motion.div
+          whileTap={{ scale: 0.98 }}
           role="button"
           tabIndex={0}
           data-cursor="view"
@@ -139,7 +140,7 @@ export default function ProjectCard({
               )}
             </div>
           </div>
-        </div>
+        </motion.div>
       </Tilt>
     </motion.article>
   );

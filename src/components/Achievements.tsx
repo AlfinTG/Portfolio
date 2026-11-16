@@ -17,10 +17,10 @@ export default function Achievements() {
           {achievements.map((ach, index) => (
             <motion.div
               key={ach.id}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1, ease: EASE }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.5, delay: index * 0.08, ease: EASE }}
             >
               <Tilt max={4} className="h-full">
                 <article className="flex h-full flex-col justify-between rounded-2xl border border-[#E7E5E0] bg-white p-6 shadow-xs transition duration-300 hover:border-[#D9A15B]/60 hover:shadow-md">

@@ -37,6 +37,19 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Optimize touch scrolling for mobile devices */
+@media (pointer: coarse) {
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.will-change-transform {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
 html.lenis,
 html.lenis body {
   height: auto;

@@ -19,7 +19,8 @@ export default function Skills() {
         {/* Category Selector Tabs */}
         <div className="rail -mx-[var(--gutter)] flex gap-2 overflow-x-auto px-[var(--gutter)] lg:mx-0 lg:flex-col lg:gap-2 lg:overflow-visible lg:px-0" role="tablist" aria-label="Skill categories">
           {skillCategories.map((category, index) => (
-            <button
+            <motion.button
+              whileTap={{ scale: 0.98 }}
               key={category.id}
               type="button"
               role="tab"
@@ -53,7 +54,7 @@ export default function Skills() {
               <span className="mt-0.5 block text-xs text-[#606575] line-clamp-1">
                 {category.subtitle}
               </span>
-            </button>
+            </motion.button>
           ))}
         </div>
 
@@ -96,6 +97,7 @@ function SkillItem({ skill }: { skill: Skill }) {
       onHoverEnd={() => setExpanded(false)}
       onClick={() => setExpanded((prev) => !prev)}
       whileHover={{ y: -3 }}
+      whileTap={{ scale: 0.98 }}
       className={`relative flex min-h-[110px] flex-col justify-between overflow-hidden rounded-xl border p-4 text-left transition duration-300 shadow-2xs ${
         expanded
           ? 'border-[#4263CC] bg-white shadow-md'

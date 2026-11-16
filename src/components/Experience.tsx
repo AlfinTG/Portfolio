@@ -16,10 +16,10 @@ export default function Experience() {
           {experiences.map((exp, index) => (
             <motion.article
               key={exp.id}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1, ease: EASE }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.5, delay: index * 0.08, ease: EASE }}
               className="flex flex-col justify-between rounded-2xl border border-[#E7E5E0] bg-white p-7 shadow-xs hover:border-[#CBD5E1] transition duration-300"
             >
               <div>

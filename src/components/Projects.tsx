@@ -37,7 +37,8 @@ export default function Projects({ onOpen }: { onOpen: (p: Project) => void }) {
             aside={
               <div className="flex flex-wrap gap-1.5 rounded-2xl border border-[#E7E5E0] bg-white/95 p-1.5 shadow-xs backdrop-blur-sm">
                 {CATEGORIES.map((cat) => (
-                  <button
+                  <motion.button
+                    whileTap={{ scale: 0.95 }}
                     key={cat.id}
                     type="button"
                     onClick={() => setActiveCategory(cat.id)}
@@ -48,7 +49,7 @@ export default function Projects({ onOpen }: { onOpen: (p: Project) => void }) {
                     }`}
                   >
                     {cat.label}
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             }
@@ -57,10 +58,10 @@ export default function Projects({ onOpen }: { onOpen: (p: Project) => void }) {
           {/* Architect Spotlight & Engineering Scope Banner */}
           <div className="gutter mb-12">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: EASE }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.6, ease: EASE }}
               className="relative overflow-hidden rounded-3xl border border-[#E7E5E0] bg-gradient-to-br from-white via-white/90 to-[#EEF2FF]/60 p-6 sm:p-8 shadow-xs"
             >
               {/* Decorative background curve */}
@@ -85,6 +86,7 @@ export default function Projects({ onOpen }: { onOpen: (p: Project) => void }) {
                   {/* Genuine Portrait in Curved Frame */}
                   <CurvedProfileFrame
                     src={profile.avatar}
+                    fallback={profile.avatarFallback}
                     alt={profile.fullName}
                     size="sm"
                     className="shrink-0"
@@ -144,7 +146,7 @@ export default function Projects({ onOpen }: { onOpen: (p: Project) => void }) {
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.6, ease: EASE }}
               className="mt-12 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[#E7E5E0] bg-white/95 p-5 text-xs text-[#606575] shadow-2xs backdrop-blur-sm"
             >

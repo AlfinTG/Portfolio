@@ -62,12 +62,24 @@ export default function Navbar({ onResume }: { onResume: () => void }) {
           aria-label="Alfin Tom George - back to top"
         >
           <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full border border-[#4263CC]/30 bg-[#EEF2FF] shadow-2xs transition-transform duration-300 group-hover:scale-105">
-            <img
-              src={profile.avatarThumb}
-              alt={profile.fullName}
-              className="h-full w-full object-cover object-top"
-              loading="eager"
-            />
+            <picture className="h-full w-full">
+              <source srcSet={profile.avatarThumb} type="image/webp" />
+              <source srcSet="/assets/profile/alfin-thumb.png" type="image/png" />
+              <img
+                src={profile.avatarFallback}
+                alt={profile.fullName}
+                className="h-full w-full object-cover object-top"
+                loading="eager"
+                decoding="async"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.dataset.triedFallback) {
+                    target.dataset.triedFallback = 'true';
+                    target.src = '/alfin.png';
+                  }
+                }}
+              />
+            </picture>
           </div>
           <Wordmark className="text-2xl" />
         </button>
@@ -130,10 +142,40 @@ export default function Navbar({ onResume }: { onResume: () => void }) {
             transition={{ duration: 0.35, ease: EASE }}
           >
             <div className="flex flex-col space-y-3">
+              {/* Profile in Mobile Nav */}
+              <div className="mb-2 flex items-center gap-3 rounded-2xl border border-[#E7E5E0] bg-white p-3 shadow-2xs">
+                <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-[#4263CC]/30 bg-[#EEF2FF]">
+                  <picture className="h-full w-full">
+                    <source srcSet={profile.avatar} type="image/webp" />
+                    <source srcSet={profile.avatarFallback} type="image/png" />
+                    <img
+                      src={profile.avatarFallback}
+                      alt={profile.fullName}
+                      className="h-full w-full object-cover object-top"
+                      loading="eager"
+                      decoding="async"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (!target.dataset.triedFallback) {
+                          target.dataset.triedFallback = 'true';
+                          target.src = '/alfin.png';
+                        }
+                      }}
+                    />
+                  </picture>
+                  <span className="absolute bottom-0.5 right-0.5 h-2.5 w-2.5 rounded-full border border-white bg-[#10B981]" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-[#24262D]">{profile.fullName}</p>
+                  <p className="text-[11px] font-medium text-[#4263CC]">{profile.role}</p>
+                  <p className="text-[10px] text-[#8A90A2]">Indore, MP, India</p>
+                </div>
+              </div>
+
               <button
                 type="button"
                 onClick={() => navigateTo('top')}
-                className={`py-2 text-left font-display text-xl font-semibold ${
+                className={`py-2 text-left font-display text-xl font-semibold transition active:scale-[0.98] ${
                   active === 'top' ? 'text-[#4263CC]' : 'text-[#24262D]'
                 }`}
               >
@@ -144,7 +186,7 @@ export default function Navbar({ onResume }: { onResume: () => void }) {
                   key={s.id}
                   type="button"
                   onClick={() => navigateTo(s.id)}
-                  className={`py-2 text-left font-display text-xl font-semibold ${
+                  className={`py-2 text-left font-display text-xl font-semibold transition active:scale-[0.98] ${
                     active === s.id ? 'text-[#4263CC]' : 'text-[#24262D]'
                   }`}
                 >
@@ -154,7 +196,7 @@ export default function Navbar({ onResume }: { onResume: () => void }) {
               <button
                 type="button"
                 onClick={() => navigateTo('contact')}
-                className={`py-2 text-left font-display text-xl font-semibold ${
+                className={`py-2 text-left font-display text-xl font-semibold transition active:scale-[0.98] ${
                   active === 'contact' ? 'text-[#4263CC]' : 'text-[#24262D]'
                 }`}
               >
@@ -168,7 +210,7 @@ export default function Navbar({ onResume }: { onResume: () => void }) {
                     setMobileOpen(false);
                     onResume();
                   }}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#4263CC] py-3 text-sm font-semibold text-white shadow-xs"
+                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#4263CC] py-3 text-sm font-semibold text-white shadow-xs active:scale-[0.98] transition"
                 >
                   <span>View Resume</span>
                   <span aria-hidden>⤓</span>
